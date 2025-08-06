@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agente de Pesquisa TCI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .tci-agent {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 100%;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tci-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+            padding: 16px 20px;
+            text-align: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .tci-header::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .tci-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tci-cube {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            transform: rotateX(15deg) rotateY(-15deg);
+            margin-right: 10px;
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .cube-front {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            transform: translateZ(12px);
+        }
+
+        .cube-right {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            transform: rotateY(90deg) translateZ(12px);
+        }
+
+        .cube-top {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            transform: rotateX(90deg) translateZ(12px);
+        }
+
+        .tci-header h2 {
+            font-size: 1.1em;
+            margin-bottom: 2px;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tci-header p {
+            opacity: 0.9;
+            font-size: 0.8em;
+            position: relative;
+            z-index: 2;
+            font-weight: 400;
+        }
+
+        .tci-content {
+            padding: 16px;
+            background: white;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .tci-search-container {
+            position: relative;
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .tci-search-input {
+            width: 100%;
+            padding: 10px 40px 10px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .tci-search-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
+
+        .tci-search-btn {
+            position: absolute;
+            right: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #3b82f6;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            padding: 6px 10px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .tci-search-btn:hover {
+            background: #1e40af;
+        }
+
+        .tci-suggestions {
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .tci-suggestions-title {
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+        }
+
+        .tci-suggestions-title::before {
+            content: '⚡';
+            margin-right: 4px;
+            font-size: 12px;
+        }
+
+        .tci-suggestion-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .tci-suggestion-tag {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 4px 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #475569;
+            font-size: 10px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .tci-suggestion-tag:hover {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .tci-results-container {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 12px;
+            display: none;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .tci-results-container.show {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #results {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        #results::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #results::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 2px;
+        }
+
+        #results::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 2px;
+        }
+
+        #results::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .tci-result-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-left: 3px solid #3b82f6;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .tci-result-item:hover {
+            transform: translateX(2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: #f1f5f9;
+        }
+
+        .tci-result-title {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 4px;
+            font-size: 12px;
+            line-height: 1.3;
+        }
+
+        .tci-result-content {
+            color: #64748b;
+            line-height: 1.4;
+            font-size: 11px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .tci-result-page {
+            font-size: 10px;
+            color: #94a3b8;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .tci-highlight {
+            background: #fbbf24;
+            color: #92400e;
+            padding: 1px 2px;
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        .tci-loading {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tci-loading::after {
+            content: '';
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 50%;
+            border-top-color: #3b82f6;
+            animation: tci-spin 1s linear infinite;
+            margin-left: 6px;
+        }
+
+        @keyframes tci-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .tci-no-results {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .tci-no-results h4 {
+            font-size: 13px;
+            margin-bottom: 4px;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .tci-no-results p {
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .tci-no-results::before {
+            content: '🔍';
+            font-size: 24px;
+            display: block;
+            margin-bottom: 8px;
+            opacity: 0.5;
+        }
+
+        .tci-initial-state {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .tci-initial-state h4 {
+            font-size: 13px;
+            margin-bottom: 4px;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .tci-initial-state p {
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .tci-initial-state::before {
+            content: '📄';
+            font-size: 24px;
+            display: block;
+            margin-bottom: 8px;
+            opacity: 0.5;
+        }
+
+        .tci-detail-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .tci-detail-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            max-width: 600px;
+            max-height: 80vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: tci-modal-appear 0.2s ease-out;
+        }
+
+        @keyframes tci-modal-appear {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .tci-detail-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .tci-detail-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .tci-detail-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+
+        .tci-detail-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .tci-detail-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .tci-detail-text {
+            color: #334155;
+            line-height: 1.6;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .tci-detail-page-info {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 12px;
+            border-left: 3px solid #3b82f6;
+        }
+
+        .tci-detail-page-info strong {
+            color: #1e293b;
+            font-size: 12px;
+        }
+
+        .tci-detail-page-info span {
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 480px) {
+            .tci-agent {
+                height: 350px;
+            }
+            
+            .tci-header {
+                padding: 12px 16px;
+            }
+            
+            .tci-content {
+                padding: 12px;
+            }
+            
+            .tci-suggestion-tag {
+                font-size: 9px;
+                padding: 3px 6px;
+            }
+            
+            .tci-search-input {
+                font-size: 12px;
+                padding: 8px 35px 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tci-agent" data-compact="true">
+        <div class="tci-header">
+            <div class="tci-logo">
+                <div class="tci-cube">
+                    <div class="cube-face cube-front"></div>
+                    <div class="cube-face cube-right"></div>
+                    <div class="cube-face cube-top"></div>
+                </div>
+                <div>
+                    <h2>Agente TCI</h2>
+                    <p>Manual de Processos</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tci-content">
+            <div class="tci-search-container">
+                <input type="text" class="tci-search-input" placeholder="Digite sua pergunta..." id="searchInput">
+                <button class="tci-search-btn" onclick="performSearch()" id="searchBtn">🔍</button>
+            </div>
+            
+            <div class="tci-suggestions">
+                <div class="tci-suggestions-title">Pesquisas frequentes:</div>
+                <div class="tci-suggestion-tags">
+                    <button class="tci-suggestion-tag" onclick="searchSuggestion('cadastro')">Cadastro</button>
+                    <button class="tci-suggestion-tag" onclick="searchSuggestion('aprovação')">Aprovação</button>
+                    <button class="tci-suggestion-tag" onclick="searchSuggestion('processo')">Processo</button>
+                    <button class="tci-suggestion-tag" onclick="searchSuggestion('documento')">Documento</button>
+                    <button class="tci-suggestion-tag" onclick="searchSuggestion('pagamento')">Pagamento</button>
+                    <button class="tci-suggestion-tag" onclick="searchSuggestion('prazo')">Prazo</button>
+                </div>
+            </div>
+            
+            <div class="tci-results-container" id="resultsContainer">
+                <div class="tci-initial-state">
+                    <h4>Agente TCI Pronto</h4>
+                    <p>Digite sua pergunta acima para pesquisar no manual de processos</p>
+                </div>
+                <div class="tci-loading" id="loading" style="display: none;">Pesquisando...</div>
+                <div id="results"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para detalhes -->
+    <div class="tci-detail-modal" id="detailModal">
+        <div class="tci-detail-content">
+            <div class="tci-detail-header">
+                <h3 class="tci-detail-title" id="detailTitle">Detalhes do Resultado</h3>
+                <button class="tci-detail-close" onclick="closeDetailModal()">×</button>
+            </div>
+            <div class="tci-detail-body">
+                <div class="tci-detail-text" id="detailText"></div>
+                <div class="tci-detail-page-info" id="detailPageInfo"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <script>
+        let pdfData = [];
+        let pdfLoaded = false;
+
+        // Lista de possíveis nomes para o PDF do manual
+        const possiblePdfNames = [
+            'manual-tci.pdf',
+            'manual_tci.pdf',
+            'manual-processos.pdf',
+            'manual_processos.pdf',
+            'manual.pdf',
+            'tci-manual.pdf',
+            'tci_manual.pdf',
+            'processos.pdf',
+            'manual-procedimentos.pdf',
+            'manual_procedimentos.pdf'
+        ];
+
+        // Configurar PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // Função para tentar carregar PDFs automaticamente
+        async function tryLoadPdf() {
+            for (const pdfName of possiblePdfNames) {
+                try {
+                    // Tentar carregar o PDF
+                    const response = await fetch(pdfName);
+                    
+                    if (response.ok) {
+                        const arrayBuffer = await response.arrayBuffer();
+                        const uint8Array = new Uint8Array(arrayBuffer);
+                        
+                        await loadPDF(uint8Array, pdfName);
+                        return true; // PDF carregado com sucesso
+                    }
+                } catch (error) {
+                    // Continuar tentando outros nomes
+                    continue;
+                }
+            }
+
+            // Se chegou aqui, não encontrou nenhum PDF - mas não mostra erro
+            return false;
+        }
+
+        async function loadPDF(data, fileName) {
+            try {
+                const pdf = await pdfjsLib.getDocument(data).promise;
+                pdfData = [];
+
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+                    const textContent = await page.getTextContent();
+                    
+                    const pageText = textContent.items
+                        .map(item => item.str)
+                        .join(' ')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+                    
+                    if (pageText.length > 20) {
+                        const sections = splitIntoSections(pageText, pageNum);
+                        pdfData.push(...sections);
+                    }
+                }
+
+                pdfLoaded = true;
+                
+            } catch (error) {
+                console.error('Erro ao processar PDF:', error);
+            }
+        }
+
+        function splitIntoSections(text, pageNum) {
+            const sections = [];
+            const words = text.split(' ');
+            const chunkSize = 200;
+            
+            for (let i = 0; i < words.length; i += chunkSize) {
+                const chunk = words.slice(i, i + chunkSize).join(' ');
+                if (chunk.trim().length > 50) {
+                    sections.push({
+                        content: chunk,
+                        page: pageNum,
+                        section: Math.floor(i / chunkSize) + 1
+                    });
+                }
+            }
+            
+            return sections;
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (!query) return;
+            
+            showResults();
+            showLoading();
+            
+            setTimeout(() => {
+                let results = [];
+                if (pdfLoaded) {
+                    results = searchInPDF(query);
+                } else {
+                    // Se não há PDF, fazer busca simulada
+                    results = simulateSearch(query);
+                }
+                displayResults(results, query);
+            }, 300);
+        }
+
+        function simulateSearch(query) {
+            // Busca simulada caso não haja PDF carregado
+            const simulatedResults = [
+                {
+                    content: `Informação relacionada a "${query}". Para obter informações mais precisas, certifique-se de que o manual em PDF esteja disponível no diretório do sistema.`,
+                    page: 1,
+                    section: 1,
+                    relevance: 10
+                }
+            ];
+            return simulatedResults;
+        }
+
+        function searchInPDF(query) {
+            const results = [];
+            const queryWords = query.toLowerCase().split(' ').filter(word => word.length > 2);
+            
+            pdfData.forEach(section => {
+                const content = section.content.toLowerCase();
+                let relevance = 0;
+                let hasMatch = false;
+                
+                // Busca exata
+                if (content.includes(query)) {
+                    relevance += 20;
+                    hasMatch = true;
+                }
+                
+                // Busca por palavras individuais
+                queryWords.forEach(word => {
+                    const wordCount = (content.match(new RegExp(word, 'g')) || []).length;
+                    if (wordCount > 0) {
+                        relevance += wordCount * 3;
+                        hasMatch = true;
+                    }
+                });
+                
+                // Busca proximidade das palavras
+                if (queryWords.length > 1) {
+                    let allWordsFound = true;
+                    queryWords.forEach(word => {
+                        if (!content.includes(word)) {
+                            allWordsFound = false;
+                        }
+                    });
+                    if (allWordsFound) relevance += 10;
+                }
+                
+                if (hasMatch) {
+                    results.push({
+                        content: section.content,
+                        page: section.page,
+                        section: section.section,
+                        relevance: relevance
+                    });
+                }
+            });
+            
+            return results
+                .sort((a, b) => b.relevance - a.relevance)
+                .slice(0, 6);
+        }
+
+        function highlightTerms(text, query) {
+            const queryWords = query.toLowerCase().split(' ').filter(word => word.length > 2);
+            let highlightedText = text;
+            
+            queryWords.forEach(word => {
+                const regex = new RegExp(`(${word})`, 'gi');
+                highlightedText = highlightedText.replace(regex, '<span class="tci-highlight">$1</span>');
+            });
+            
+            return highlightedText;
+        }
+
+        function displayResults(results, query) {
+            hideLoading();
+            const resultsDiv = document.getElementById('results');
+            
+            if (results.length === 0) {
+                resultsDiv.innerHTML = `
+                    <div class="tci-no-results">
+                        <h4>Nenhum resultado encontrado</h4>
+                        <p>Tente usar termos diferentes ou palavras-chave mais específicas</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            resultsDiv.innerHTML = results.map((result, index) => {
+                const snippet = extractRelevantSnippet(result.content, query);
+                
+                return `
+                    <div class="tci-result-item" onclick="showDetailModal(${index}, '${query.replace(/'/g, "\\'")}')">
+                        <div class="tci-result-title">Resultado ${index + 1}</div>
+                        <div class="tci-result-content">${highlightTerms(snippet, query)}</div>
+                        <div class="tci-result-page">Página ${result.page}</div>
+                    </div>
+                `;
+            }).join('');
+
+            // Armazenar resultados para o modal
+            window.currentResults = results;
+        }
+
+        function extractRelevantSnippet(text, query, maxLength = 200) {
+            const queryWords = query.toLowerCase().split(' ').filter(word => word.length > 2);
+            const lowerText = text.toLowerCase();
+            
+            let bestPosition = 0;
+            let bestScore = 0;
+            
+            queryWords.forEach(word => {
+                const position = lowerText.indexOf(word);
+                if (position !== -1) {
+                    let score = 0;
+                    const window = lowerText.substring(Math.max(0, position - 50), position + 150);
+                    queryWords.forEach(w => {
+                        if (window.includes(w)) score++;
+                    });
+                    
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestPosition = position;
+                    }
+                }
+            });
+            
+            const start = Math.max(0, bestPosition - 50);
+            const end = Math.min(text.length, start + maxLength);
+            
+            let snippet = text.substring(start, end);
+            
+            if (start > 0) snippet = '...' + snippet;
+            if (end < text.length) snippet = snippet + '...';
+            
+            return snippet;
+        }
+
+        function showResults() {
+            document.getElementById('resultsContainer').classList.add('show');
+        }
+
+        function showLoading() {
+            document.getElementById('loading').style.display = 'flex';
+            document.getElementById('results').style.display = 'none';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function searchSuggestion(suggestion) {
+            document.getElementById('searchInput').value = suggestion;
+            performSearch();
+        }
+
+        // Funções do modal de detalhes
+        function showDetailModal(resultIndex, query) {
+            const result = window.currentResults[resultIndex];
+            if (!result) return;
+
+            document.getElementById('detailTitle').textContent = `Resultado ${resultIndex + 1}`;
+            document.getElementById('detailText').innerHTML = highlightTerms(result.content, query);
+            document.getElementById('detailPageInfo').innerHTML = `
+                <strong>Localização:</strong> 
+                <span>Página ${result.page}, Seção ${result.section}</span>
+            `;
+
+            document.getElementById('detailModal').style.display = 'flex';
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+
+        // Fechar modal ao clicar fora
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('detailModal');
+            if (e.target === modal) {
+                closeDetailModal();
+            }
+        });
+
+        // Fechar modal com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDetailModal();
+            }
+        });
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Inicialização - carregar PDF automaticamente
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Ocultar títulos de web parts do SharePoint
+            const webpartTitles = document.querySelectorAll('.ms-webpart-chrome-title');
+            webpartTitles.forEach(title => {
+                if (title.textContent.includes('Agente') || title.textContent.includes('TCI')) {
+                    title.style.display = 'none';
+                }
+            });
+
+            // Tentar carregar PDF automaticamente (silenciosamente)
+            await tryLoadPdf();
+        });
+    </script>
+</body>
+</html>
