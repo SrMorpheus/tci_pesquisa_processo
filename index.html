@@ -331,7 +331,7 @@
         }
 
         .tci-suggestions {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             flex-shrink: 0;
         }
 
@@ -378,10 +378,11 @@
 
         .tci-results-container {
             border-top: 2px solid #e2e8f0;
-            padding-top: 20px;
+            padding-top: 16px;
             display: none;
             flex: 1;
             min-height: 0;
+            overflow: hidden;
         }
 
         .tci-results-container.show {
@@ -393,7 +394,7 @@
             flex: 1;
             overflow-y: auto;
             padding-right: 8px;
-            min-height: 300px;
+            max-height: calc(100vh - 300px);
         }
 
         #results::-webkit-scrollbar {
@@ -689,12 +690,25 @@
                 font-size: 13px;
             }
 
+            .tci-welcome-screen {
+                padding: 15px 12px;
+            }
+
             .tci-welcome-title {
-                font-size: 2em;
+                font-size: 1.6em;
             }
 
             .tci-welcome-features {
                 grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .tci-welcome-feature {
+                padding: 16px;
+            }
+
+            .tci-content {
+                padding: 14px;
             }
         }
 
@@ -714,11 +728,23 @@
             }
 
             .tci-welcome-screen {
-                padding: 20px 16px;
+                padding: 10px 8px;
             }
 
             .tci-welcome-title {
-                font-size: 1.8em;
+                font-size: 1.4em;
+            }
+
+            .tci-welcome-subtitle {
+                font-size: 0.9em;
+            }
+
+            .tci-welcome-features {
+                gap: 10px;
+            }
+
+            .tci-welcome-feature {
+                padding: 14px;
             }
         }
     </style>
