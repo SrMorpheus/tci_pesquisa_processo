@@ -11,25 +11,33 @@
             box-sizing: border-box;
         }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+            min-height: 100vh;
+        }
+
         .tci-agent {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: white;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            max-width: 100%;
-            height: 400px;
+            width: 100%;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .tci-header {
             background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
             color: white;
-            padding: 16px 20px;
+            padding: 20px 24px;
             text-align: center;
             position: relative;
             flex-shrink: 0;
+            border-radius: 0;
         }
 
         .tci-header::before {
@@ -37,8 +45,8 @@
             position: absolute;
             top: -20px;
             right: -20px;
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             background: rgba(255,255,255,0.1);
             border-radius: 50%;
             opacity: 0.3;
@@ -53,38 +61,38 @@
         }
 
         .tci-cube {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             position: relative;
             transform: rotateX(15deg) rotateY(-15deg);
-            margin-right: 10px;
+            margin-right: 12px;
         }
 
         .cube-face {
             position: absolute;
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             border: 1px solid rgba(255,255,255,0.3);
         }
 
         .cube-front {
             background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-            transform: translateZ(12px);
+            transform: translateZ(14px);
         }
 
         .cube-right {
             background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
-            transform: rotateY(90deg) translateZ(12px);
+            transform: rotateY(90deg) translateZ(14px);
         }
 
         .cube-top {
             background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-            transform: rotateX(90deg) translateZ(12px);
+            transform: rotateX(90deg) translateZ(14px);
         }
 
         .tci-header h2 {
-            font-size: 1.1em;
-            margin-bottom: 2px;
+            font-size: 1.4em;
+            margin-bottom: 4px;
             font-weight: 600;
             position: relative;
             z-index: 2;
@@ -92,71 +100,74 @@
 
         .tci-header p {
             opacity: 0.9;
-            font-size: 0.8em;
+            font-size: 1em;
             position: relative;
             z-index: 2;
             font-weight: 400;
         }
 
         .tci-content {
-            padding: 16px;
+            padding: 24px;
             background: white;
             flex: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            min-height: 0;
         }
 
         .tci-search-container {
             position: relative;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
             flex-shrink: 0;
         }
 
         .tci-search-input {
             width: 100%;
-            padding: 10px 40px 10px 12px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 13px;
+            padding: 16px 60px 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
             outline: none;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            background: #f8fafc;
         }
 
         .tci-search-input:focus {
             border-color: #3b82f6;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            background: white;
         }
 
         .tci-search-btn {
             position: absolute;
-            right: 4px;
+            right: 6px;
             top: 50%;
             transform: translateY(-50%);
             background: #3b82f6;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             color: white;
-            padding: 6px 10px;
+            padding: 12px 16px;
             cursor: pointer;
-            transition: background-color 0.2s ease;
-            font-size: 11px;
+            transition: all 0.3s ease;
+            font-size: 14px;
             font-weight: 500;
         }
 
         .tci-search-btn:hover {
             background: #1e40af;
+            transform: translateY(-50%) scale(1.05);
         }
 
         .tci-suggestions {
-            margin-bottom: 12px;
+            margin-bottom: 20px;
             flex-shrink: 0;
         }
 
         .tci-suggestions-title {
-            font-size: 11px;
+            font-size: 14px;
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 12px;
             color: #1e293b;
             display: flex;
             align-items: center;
@@ -164,25 +175,25 @@
 
         .tci-suggestions-title::before {
             content: '⚡';
-            margin-right: 4px;
-            font-size: 12px;
+            margin-right: 8px;
+            font-size: 16px;
         }
 
         .tci-suggestion-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 8px;
         }
 
         .tci-suggestion-tag {
             background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            padding: 4px 8px;
-            border-radius: 12px;
+            border: 2px solid #cbd5e1;
+            padding: 8px 16px;
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             color: #475569;
-            font-size: 10px;
+            font-size: 13px;
             font-weight: 500;
             white-space: nowrap;
         }
@@ -191,14 +202,15 @@
             background: #3b82f6;
             color: white;
             border-color: #3b82f6;
+            transform: translateY(-2px);
         }
 
         .tci-results-container {
-            border-top: 1px solid #e2e8f0;
-            padding-top: 12px;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 20px;
             display: none;
             flex: 1;
-            overflow: hidden;
+            min-height: 0;
         }
 
         .tci-results-container.show {
@@ -209,21 +221,22 @@
         #results {
             flex: 1;
             overflow-y: auto;
-            padding-right: 4px;
+            padding-right: 8px;
+            min-height: 300px;
         }
 
         #results::-webkit-scrollbar {
-            width: 4px;
+            width: 6px;
         }
 
         #results::-webkit-scrollbar-track {
             background: #f1f5f9;
-            border-radius: 2px;
+            border-radius: 3px;
         }
 
         #results::-webkit-scrollbar-thumb {
             background: #cbd5e1;
-            border-radius: 2px;
+            border-radius: 3px;
         }
 
         #results::-webkit-scrollbar-thumb:hover {
@@ -232,74 +245,78 @@
 
         .tci-result-item {
             background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 8px;
-            border-left: 3px solid #3b82f6;
-            transition: all 0.2s ease;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid #3b82f6;
+            transition: all 0.3s ease;
             cursor: pointer;
         }
 
         .tci-result-item:hover {
-            transform: translateX(2px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transform: translateX(4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
             background: #f1f5f9;
+            border-color: #3b82f6;
         }
 
         .tci-result-title {
             font-weight: 600;
             color: #1e293b;
-            margin-bottom: 4px;
-            font-size: 12px;
-            line-height: 1.3;
+            margin-bottom: 8px;
+            font-size: 16px;
+            line-height: 1.4;
         }
 
         .tci-result-content {
             color: #64748b;
-            line-height: 1.4;
-            font-size: 11px;
+            line-height: 1.6;
+            font-size: 14px;
             display: -webkit-box;
-            -webkit-line-clamp: 3;
+            -webkit-line-clamp: 4;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            margin-bottom: 8px;
         }
 
         .tci-result-page {
-            font-size: 10px;
+            font-size: 12px;
             color: #94a3b8;
-            margin-top: 4px;
+            margin-top: 8px;
             font-style: italic;
+            font-weight: 500;
         }
 
         .tci-highlight {
             background: #fbbf24;
             color: #92400e;
-            padding: 1px 2px;
-            border-radius: 2px;
+            padding: 2px 4px;
+            border-radius: 4px;
             font-weight: 600;
         }
 
         .tci-loading {
             text-align: center;
-            padding: 20px;
+            padding: 40px;
             color: #64748b;
-            font-size: 12px;
+            font-size: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex: 1;
         }
 
         .tci-loading::after {
             content: '';
             display: inline-block;
-            width: 14px;
-            height: 14px;
-            border: 2px solid #e2e8f0;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #e2e8f0;
             border-radius: 50%;
             border-top-color: #3b82f6;
             animation: tci-spin 1s linear infinite;
-            margin-left: 6px;
+            margin-left: 10px;
         }
 
         @keyframes tci-spin {
@@ -308,7 +325,7 @@
 
         .tci-no-results {
             text-align: center;
-            padding: 20px;
+            padding: 40px;
             color: #64748b;
             flex: 1;
             display: flex;
@@ -317,52 +334,53 @@
         }
 
         .tci-no-results h4 {
-            font-size: 13px;
-            margin-bottom: 4px;
+            font-size: 18px;
+            margin-bottom: 8px;
             color: #1e293b;
             font-weight: 600;
         }
 
         .tci-no-results p {
-            font-size: 11px;
-            line-height: 1.4;
+            font-size: 14px;
+            line-height: 1.5;
         }
 
         .tci-no-results::before {
             content: '🔍';
-            font-size: 24px;
+            font-size: 48px;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 16px;
             opacity: 0.5;
         }
 
         .tci-initial-state {
             text-align: center;
-            padding: 20px;
+            padding: 40px;
             color: #64748b;
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            min-height: 300px;
         }
 
         .tci-initial-state h4 {
-            font-size: 13px;
-            margin-bottom: 4px;
+            font-size: 18px;
+            margin-bottom: 8px;
             color: #1e293b;
             font-weight: 600;
         }
 
         .tci-initial-state p {
-            font-size: 11px;
-            line-height: 1.4;
+            font-size: 14px;
+            line-height: 1.5;
         }
 
         .tci-initial-state::before {
             content: '📄';
-            font-size: 24px;
+            font-size: 48px;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 16px;
             opacity: 0.5;
         }
 
@@ -382,15 +400,15 @@
 
         .tci-detail-content {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            max-width: 600px;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            max-width: 700px;
             max-height: 80vh;
             width: 100%;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            animation: tci-modal-appear 0.2s ease-out;
+            animation: tci-modal-appear 0.3s ease-out;
         }
 
         @keyframes tci-modal-appear {
@@ -401,14 +419,14 @@
         .tci-detail-header {
             background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
             color: white;
-            padding: 16px 20px;
+            padding: 20px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
         .tci-detail-title {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             margin: 0;
         }
@@ -417,7 +435,7 @@
             background: none;
             border: none;
             color: white;
-            font-size: 18px;
+            font-size: 20px;
             cursor: pointer;
             padding: 4px;
             border-radius: 4px;
@@ -429,7 +447,7 @@
         }
 
         .tci-detail-body {
-            padding: 20px;
+            padding: 24px;
             overflow-y: auto;
             flex: 1;
         }
@@ -437,55 +455,121 @@
         .tci-detail-text {
             color: #334155;
             line-height: 1.6;
-            font-size: 13px;
-            margin-bottom: 16px;
+            font-size: 14px;
+            margin-bottom: 20px;
         }
 
         .tci-detail-page-info {
             background: #f1f5f9;
             border-radius: 8px;
-            padding: 12px;
-            border-left: 3px solid #3b82f6;
+            padding: 16px;
+            border-left: 4px solid #3b82f6;
         }
 
         .tci-detail-page-info strong {
             color: #1e293b;
-            font-size: 12px;
+            font-size: 14px;
         }
 
         .tci-detail-page-info span {
             color: #64748b;
-            font-size: 11px;
+            font-size: 13px;
+        }
+
+        /* Botão Ver Mais Resultados */
+        .tci-more-results {
+            text-align: center;
+            padding: 20px;
+            margin-top: 16px;
+            border-top: 2px dashed #e2e8f0;
+        }
+
+        .tci-more-btn {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 16px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .tci-more-btn:hover {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.25);
+        }
+
+        .tci-more-btn span:first-child {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .tci-more-count {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .tci-more-btn:hover .tci-more-count {
+            opacity: 0.9;
         }
 
         /* Responsividade */
-        @media (max-width: 480px) {
-            .tci-agent {
-                height: 350px;
+        @media (max-width: 768px) {
+            .tci-content {
+                padding: 16px;
             }
             
             .tci-header {
-                padding: 12px 16px;
-            }
-            
-            .tci-content {
-                padding: 12px;
-            }
-            
-            .tci-suggestion-tag {
-                font-size: 9px;
-                padding: 3px 6px;
+                padding: 16px 20px;
             }
             
             .tci-search-input {
+                font-size: 14px;
+                padding: 12px 50px 12px 16px;
+            }
+
+            .tci-result-item {
+                padding: 16px;
+            }
+
+            .tci-result-title {
+                font-size: 14px;
+            }
+
+            .tci-result-content {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tci-suggestion-tag {
                 font-size: 12px;
-                padding: 8px 35px 8px 10px;
+                padding: 6px 12px;
+            }
+            
+            .tci-search-input {
+                font-size: 14px;
+                padding: 10px 45px 10px 14px;
+            }
+
+            .tci-search-btn {
+                padding: 10px 12px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="tci-agent" data-compact="true">
+    <div class="tci-agent" data-compact="false">
         <div class="tci-header">
             <div class="tci-logo">
                 <div class="tci-cube">
@@ -519,10 +603,6 @@
             </div>
             
             <div class="tci-results-container" id="resultsContainer">
-                <div class="tci-initial-state">
-                    <h4>Agente TCI Pronto</h4>
-                    <p>Digite sua pergunta acima para pesquisar no manual de processos</p>
-                </div>
                 <div class="tci-loading" id="loading" style="display: none;">Pesquisando...</div>
                 <div id="results"></div>
             </div>
@@ -658,13 +738,55 @@
         }
 
         function simulateSearch(query) {
-            // Busca simulada caso não haja PDF carregado
+            // Busca simulada caso não haja PDF carregado - 8 resultados simulados
             const simulatedResults = [
                 {
-                    content: `Informação relacionada a "${query}". Para obter informações mais precisas, certifique-se de que o manual em PDF esteja disponível no diretório do sistema.`,
+                    content: `Processo de ${query}: Documentação necessária para abertura de processo relacionado a ${query}. Este procedimento deve ser seguido conforme as diretrizes estabelecidas no manual de processos da organização.`,
                     page: 1,
                     section: 1,
+                    relevance: 15
+                },
+                {
+                    content: `Procedimentos para ${query}: Fluxo detalhado das etapas necessárias para execução de ${query}. Importante verificar todos os requisitos antes de iniciar o processo.`,
+                    page: 2,
+                    section: 1,
+                    relevance: 12
+                },
+                {
+                    content: `Aprovação de ${query}: Critérios e responsáveis pela aprovação de processos relacionados a ${query}. O tempo médio de aprovação é de 5 a 10 dias úteis.`,
+                    page: 3,
+                    section: 2,
                     relevance: 10
+                },
+                {
+                    content: `Documentação para ${query}: Lista completa de documentos necessários para solicitações de ${query}. Verifique se todos os documentos estão atualizados e válidos.`,
+                    page: 4,
+                    section: 1,
+                    relevance: 9
+                },
+                {
+                    content: `Prazos para ${query}: Cronograma e prazos estabelecidos para conclusão de processos de ${query}. É importante respeitar as datas para evitar atrasos.`,
+                    page: 5,
+                    section: 3,
+                    relevance: 8
+                },
+                {
+                    content: `Alterações em ${query}: Procedimentos para modificação ou cancelamento de processos já iniciados relacionados a ${query}.`,
+                    page: 6,
+                    section: 2,
+                    relevance: 7
+                },
+                {
+                    content: `Consulta de ${query}: Como acompanhar o andamento e status atual de processos de ${query} através do sistema interno.`,
+                    page: 7,
+                    section: 1,
+                    relevance: 6
+                },
+                {
+                    content: `Recursos para ${query}: Informações sobre recursos disponíveis e canais de suporte para dúvidas relacionadas a ${query}.`,
+                    page: 8,
+                    section: 4,
+                    relevance: 5
                 }
             ];
             return simulatedResults;
@@ -717,7 +839,7 @@
             
             return results
                 .sort((a, b) => b.relevance - a.relevance)
-                .slice(0, 6);
+                .slice(0, 15); // Aumentado para 15 resultados
         }
 
         function highlightTerms(text, query) {
@@ -732,7 +854,10 @@
             return highlightedText;
         }
 
-        function displayResults(results, query) {
+        let currentResultsPage = 1;
+        const resultsPerPage = 3;
+
+        function displayResults(results, query, showAll = false) {
             hideLoading();
             const resultsDiv = document.getElementById('results');
             
@@ -745,8 +870,16 @@
                 `;
                 return;
             }
+
+            // Armazenar resultados globalmente
+            window.currentResults = results;
+            window.currentQuery = query;
+
+            // Determinar quantos resultados mostrar
+            const resultsToShow = showAll ? results.length : Math.min(results.length, resultsPerPage);
+            const displayResults = results.slice(0, resultsToShow);
             
-            resultsDiv.innerHTML = results.map((result, index) => {
+            resultsDiv.innerHTML = displayResults.map((result, index) => {
                 const snippet = extractRelevantSnippet(result.content, query);
                 
                 return `
@@ -758,11 +891,25 @@
                 `;
             }).join('');
 
-            // Armazenar resultados para o modal
-            window.currentResults = results;
+            // Adicionar botão "Ver mais" se houver mais resultados
+            if (results.length > resultsPerPage && !showAll) {
+                const moreButton = document.createElement('div');
+                moreButton.className = 'tci-more-results';
+                moreButton.innerHTML = `
+                    <button class="tci-more-btn" onclick="showMoreResults()">
+                        <span>Ver mais resultados</span>
+                        <span class="tci-more-count">(${results.length - resultsPerPage} restantes)</span>
+                    </button>
+                `;
+                resultsDiv.appendChild(moreButton);
+            }
         }
 
-        function extractRelevantSnippet(text, query, maxLength = 200) {
+        function showMoreResults() {
+            displayResults(window.currentResults, window.currentQuery, true);
+        }
+
+        function extractRelevantSnippet(text, query, maxLength = 300) {
             const queryWords = query.toLowerCase().split(' ').filter(word => word.length > 2);
             const lowerText = text.toLowerCase();
             
