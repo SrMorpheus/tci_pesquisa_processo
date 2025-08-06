@@ -106,6 +106,171 @@
             font-weight: 400;
         }
 
+        /* Tela Inicial */
+        .tci-welcome-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            animation: tci-welcome-fade-in 0.8s ease-out;
+        }
+
+        .tci-welcome-screen.fade-out {
+            animation: tci-welcome-fade-out 0.5s ease-in forwards;
+        }
+
+        @keyframes tci-welcome-fade-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes tci-welcome-fade-out {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+
+        .tci-welcome-logo {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .tci-welcome-cube {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            transform: rotateX(15deg) rotateY(-15deg);
+            margin: 0 auto 20px;
+            animation: tci-cube-rotate 4s ease-in-out infinite;
+        }
+
+        @keyframes tci-cube-rotate {
+            0%, 100% { transform: rotateX(15deg) rotateY(-15deg); }
+            25% { transform: rotateX(15deg) rotateY(45deg); }
+            50% { transform: rotateX(-15deg) rotateY(45deg); }
+            75% { transform: rotateX(-15deg) rotateY(-15deg); }
+        }
+
+        .tci-welcome-cube .cube-face {
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+        }
+
+        .tci-welcome-cube .cube-front {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            transform: translateZ(40px);
+        }
+
+        .tci-welcome-cube .cube-right {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            transform: rotateY(90deg) translateZ(40px);
+        }
+
+        .tci-welcome-cube .cube-top {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            transform: rotateX(90deg) translateZ(40px);
+        }
+
+        .tci-welcome-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tci-welcome-subtitle {
+            font-size: 1.2em;
+            color: #64748b;
+            margin-bottom: 40px;
+            max-width: 600px;
+            line-height: 1.5;
+        }
+
+        .tci-welcome-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .tci-welcome-feature {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-left: 4px solid #3b82f6;
+            transition: all 0.3s ease;
+        }
+
+        .tci-welcome-feature:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .tci-welcome-feature-icon {
+            font-size: 2em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .tci-welcome-feature h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .tci-welcome-feature p {
+            font-size: 0.9em;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
+        .tci-welcome-start {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .tci-welcome-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .tci-welcome-tips {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #64748b;
+            max-width: 500px;
+        }
+
+        .tci-welcome-tips strong {
+            color: #3b82f6;
+        }
+
         .tci-content {
             padding: 24px;
             background: white;
@@ -353,37 +518,6 @@
             opacity: 0.5;
         }
 
-        .tci-initial-state {
-            text-align: center;
-            padding: 40px;
-            color: #64748b;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            min-height: 300px;
-        }
-
-        .tci-initial-state h4 {
-            font-size: 18px;
-            margin-bottom: 8px;
-            color: #1e293b;
-            font-weight: 600;
-        }
-
-        .tci-initial-state p {
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .tci-initial-state::before {
-            content: '📄';
-            font-size: 48px;
-            display: block;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
-
         .tci-detail-modal {
             position: fixed;
             top: 0;
@@ -476,7 +610,6 @@
             font-size: 13px;
         }
 
-        /* Botão Ver Mais Resultados */
         .tci-more-results {
             text-align: center;
             padding: 20px;
@@ -549,6 +682,14 @@
             .tci-result-content {
                 font-size: 13px;
             }
+
+            .tci-welcome-title {
+                font-size: 2em;
+            }
+
+            .tci-welcome-features {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 480px) {
@@ -565,10 +706,56 @@
             .tci-search-btn {
                 padding: 10px 12px;
             }
+
+            .tci-welcome-screen {
+                padding: 20px 16px;
+            }
+
+            .tci-welcome-title {
+                font-size: 1.8em;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Tela Inicial -->
+    <div class="tci-welcome-screen" id="welcomeScreen">
+        <div class="tci-welcome-logo">
+            <div class="tci-welcome-cube">
+                <div class="cube-face cube-front"></div>
+                <div class="cube-face cube-right"></div>
+                <div class="cube-face cube-top"></div>
+            </div>
+            <h1 class="tci-welcome-title">Agente TCI</h1>
+            <p class="tci-welcome-subtitle">Seu assistente inteligente para consulta do Manual de Processos</p>
+        </div>
+
+        <div class="tci-welcome-features">
+            <div class="tci-welcome-feature">
+                <span class="tci-welcome-feature-icon">🔍</span>
+                <h4>Busca Inteligente</h4>
+                <p>Encontre informações específicas rapidamente usando palavras-chave ou frases completas</p>
+            </div>
+            <div class="tci-welcome-feature">
+                <span class="tci-welcome-feature-icon">📊</span>
+                <h4>Resultados Relevantes</h4>
+                <p>Sistema de relevância que prioriza os resultados mais importantes para sua consulta</p>
+            </div>
+            <div class="tci-welcome-feature">
+                <span class="tci-welcome-feature-icon">⚡</span>
+                <h4>Interface Rápida</h4>
+                <p>Navegação intuitiva com sugestões e visualização detalhada de cada resultado</p>
+            </div>
+        </div>
+
+        <button class="tci-welcome-start" onclick="startSearch()">Começar Pesquisa</button>
+
+        <div class="tci-welcome-tips">
+            <strong>Dica:</strong> Use termos específicos como "cadastro", "aprovação", "documento" ou "prazo" para obter melhores resultados
+        </div>
+    </div>
+
+    <!-- Interface Principal -->
     <div class="tci-agent" data-compact="false">
         <div class="tci-header">
             <div class="tci-logo">
@@ -647,6 +834,17 @@
         // Configurar PDF.js
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
+        // Função para iniciar a pesquisa (ocultar tela inicial)
+        function startSearch() {
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            welcomeScreen.classList.add('fade-out');
+            
+            setTimeout(() => {
+                welcomeScreen.style.display = 'none';
+                document.getElementById('searchInput').focus();
+            }, 500);
+        }
+
         // Função para tentar carregar PDFs automaticamente
         async function tryLoadPdf() {
             for (const pdfName of possiblePdfNames) {
@@ -719,6 +917,21 @@
         }
 
         function performSearch() {
+            // Se a tela inicial ainda estiver visível, ocultá-la primeiro
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            if (welcomeScreen.style.display !== 'none') {
+                startSearch();
+                
+                // Aguardar a transição antes de fazer a pesquisa
+                setTimeout(() => {
+                    executeSearch();
+                }, 600);
+            } else {
+                executeSearch();
+            }
+        }
+
+        function executeSearch() {
             const query = document.getElementById('searchInput').value.trim().toLowerCase();
             if (!query) return;
             
